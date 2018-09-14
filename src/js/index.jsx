@@ -79,7 +79,8 @@ class PuzzleItem extends React.Component {
                 style={{
                     left: this.props.position%3+"00px",
                     top: Math.floor(this.props.position/3)+"00px",
-                    opacity: this.props.enable?1:0.3
+                    opacity: this.props.enable?1:0.3,
+                    cursor: this.props.enable?"pointer":"none"
                 }} 
                 onClick={() => this.props.enable && this.props.onClick(this.props.position,this.props.number)}
             >{this.props.number}</div>
@@ -95,13 +96,55 @@ class Ranking extends React.Component {
     }
 
     render() {
-
-        return (
-            <section>     Ranking       </section>
-        );
+        let rankListSort = this.props.rankList;
+        rankListSort.sort(function(a,b){
+            return a.step - b.step;
+        });
+        let rankArray = rankListSort.map((item,index)=>(
+            <RankItem 
+                key={index}
+                rank={index+1}
+                name={item.name}
+                step={item.step}
+            />
+        ));
+        if(this.props.rankList.length){
+            return (
+                <section className="rankList">
+                    <div className="title">
+                        <div>Ranking</div>
+                        <div>Name</div>
+                        <div>Steps</div>
+                    </div>
+                    {rankArray}
+                </section>
+            );
+        } else {
+            return (
+                <section>There's no ranking data.</section>
+            )
+        }
     }
 }
 
+// rankItem ------------------------------------------------------
+class RankItem extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div 
+                // key={this.props.key} 
+                className="rankItem"
+            >
+                <div>{this.props.rank}</div>
+                <div>{this.props.name}</div>
+                <div>{this.props.step}</div>
+            </div>
+        );
+    }
+}
 
 // application -------------------------------------------------
 class PuzzleGame extends React.Component {
@@ -112,27 +155,23 @@ class PuzzleGame extends React.Component {
             step:0,
             name:"",
             puzzleList:[1,2,3,4,5,6,7,8,0],
-            playerList:[
-                {
-                    index:0,
-                    name: "GG",
-                    step: 2
-                },
-                {
-                    index:1,
-                    name: "JJ",
-                    step: 5
-                }
-            ]
+            rankList: window.localStorage.getItem("rankList") ? JSON.parse(window.localStorage.getItem("rankList")) : []
+            // rankList:[
+            //     {
+            //         name: "GG",
+            //         step: 2
+            //     },
+            //     {
+            //         name: "JJ",
+            //         step: 5
+            //     }
+            // ]
         }
     }
+
     inputName(e){
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({name:e.target.value});
-    }
-    findHole(list){
-        // console.log(list.indexOf(0));
-        this.state.hole = list.indexOf(0);
     }
 
     handleClick(position){
@@ -147,21 +186,27 @@ class PuzzleGame extends React.Component {
             this.change(position,this.state.puzzleList.indexOf(0));
         }
     }
+
     change(i,j){
         let newList = this.state.puzzleList;
         let t = newList[i];
         newList[i] = newList[j];
         newList[j] = t;
         this.setState({puzzleList:newList,step:(this.state.step+1)});
-        console.log(newList.toString());
+        // console.log(newList.toString());
         if(newList.toString() == "1,2,3,4,5,6,7,8,0"){
             this.endGame();
         }
     }
+
     endGame(){
         console.log("KO");
-        this.setState({enable:false});
+        let newRankList = this.state.rankList;
+        newRankList.push({name:this.state.name,step:this.state.step+1});
+        window.localStorage.setItem("rankList",JSON.stringify(newRankList));
+        this.setState({enable:false,rankList:newRankList});
     }
+
     startGame(){
         // let startList = [1,2,3,4,5,6,7,8,0];
         // for(let i=0;i<100;i++){
@@ -181,7 +226,11 @@ class PuzzleGame extends React.Component {
         // this.setState({enable:true,step:0,puzzleList:startList});
         this.setState({enable:true,step:0,puzzleList:[1,2,3,4,5,6,7,0,8]});
     }
+
+
+
     render(){
+        // console.log(this.state.rankList);
         return(
             <section>
                 <Header />
@@ -192,16 +241,22 @@ class PuzzleGame extends React.Component {
                             <Game 
                                 puzzleList={this.state.puzzleList} 
                                 step={this.state.step} 
-                                onClick={this.handleClick.bind(this)}
-                                start={this.startGame.bind(this)}
                                 enable={this.state.enable}
                                 name={this.state.name}
+                                onClick={this.handleClick.bind(this)}
+                                start={this.startGame.bind(this)}
                                 inputName={this.inputName.bind(this)}
                             />
                         }
                     />
                         
-                    <Route path="/ranking" component={Ranking} />
+                    <Route 
+                        path="/ranking" 
+                        render={props =>
+                            <Ranking
+                                rankList={this.state.rankList}
+                            />
+                        } />
                 </Switch>
             </section>
         )

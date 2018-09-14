@@ -36,7 +36,19 @@ header>a {
     transition: 0.3s;
 }
 
+
 #p {
     background-color: gray;
     border: solid 1px gray;
+}
+
+/* rank page =================== */
+.rankList>div {
+    display: flex;
+    width: 400px;
+    margin: 10px auto;
+}
+
+.rankList>div>div {
+    flex: 1;
 }
