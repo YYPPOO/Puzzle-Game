@@ -1,0 +1,73 @@
+header {
+    display: flex;
+    width: 100%;
+}
+
+header>a {
+    flex: 1;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.gameButton {
+    background-color: gray;
+}
+
+.rankingButton {
+    background-color: lightgray;
+}
+
+section>section {
+    margin: 20px auto;
+    width: 304px;
+}
+
+section>div {
+    margin: 20px auto;
+}
+
+.puzzle {
+    /* display: flex;
+    flex-wrap: wrap; */
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border: solid 2px gray;
+}
+
+.puzzle>div {
+    position: absolute;
+    width: 98px;
+    height: 98px;
+    border: solid 1px darkgray;
+    transform: translate(-1px,-1px);
+    transition: 0.3s;
+}
+
+
+#p {
+    background-color: gray;
+    border: solid 1px gray;
+}
+
+/* rank page =================== */
+.rankList {
+    width: 300px;
+}
+
+.rankList>div {
+    display: flex;
+    margin: 10px auto;
+    font-size: 16px;
+}
+
+.rankList>.title {
+    font-weight: bold;
+    border-bottom: 2px solid gray;
+}
+
+.rankList>div>div {
+    flex: 1;
+    text-align: center
+}
