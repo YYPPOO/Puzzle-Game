@@ -156,16 +156,6 @@ class PuzzleGame extends React.Component {
             name:"",
             puzzleList:[1,2,3,4,5,6,7,8,0],
             rankList: window.localStorage.getItem("rankList") ? JSON.parse(window.localStorage.getItem("rankList")) : []
-            // rankList:[
-            //     {
-            //         name: "GG",
-            //         step: 2
-            //     },
-            //     {
-            //         name: "JJ",
-            //         step: 5
-            //     }
-            // ]
         }
     }
 

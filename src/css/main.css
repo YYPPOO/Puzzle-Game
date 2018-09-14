@@ -18,6 +18,15 @@ header>a {
     background-color: lightgray;
 }
 
+section>section {
+    margin: 20px auto;
+    width: 304px;
+}
+
+section>div {
+    margin: 20px auto;
+}
+
 .puzzle {
     /* display: flex;
     flex-wrap: wrap; */
@@ -43,12 +52,22 @@ header>a {
 }
 
 /* rank page =================== */
+.rankList {
+    width: 300px;
+}
+
 .rankList>div {
     display: flex;
-    width: 400px;
     margin: 10px auto;
+    font-size: 16px;
+}
+
+.rankList>.title {
+    font-weight: bold;
+    border-bottom: 2px solid gray;
 }
 
 .rankList>div>div {
     flex: 1;
+    text-align: center
 }
