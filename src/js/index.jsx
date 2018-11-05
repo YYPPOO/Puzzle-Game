@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Route, NavLink, Switch } from 'react-router-dom'
-// import { url } from "inspector";
 
 // header --------------------------------------------------------
 class Header extends React.Component {
@@ -14,8 +13,6 @@ class Header extends React.Component {
 
                 <NavLink to="/" className="gameButton">Game</NavLink>
                 <NavLink to="/ranking" className="rankingButton">Ranking</NavLink>
-
-                {/* 我們將 App 元件當做每個元件都會載入的母模版，因此可以透過 children 載入對應 URL 的子元件 */}
                 {this.props.children}
             </header>
         )
@@ -38,10 +35,7 @@ class Game extends React.Component {
                 enable={this.props.enable}
             />
         ));
-        // console.log(puzzleArray)
-        // for(let i=0;i<this.props.puzzleList.length;i++){
 
-        // }
         return (
             <section>
                 <input 
@@ -80,7 +74,7 @@ class PuzzleItem extends React.Component {
                     opacity: this.props.enable?1:0.3,
                     cursor: this.props.enable?"pointer":"none"
                 }} 
-                onClick={() => this.props.enable && this.props.onClick(this.props.position,this.props.number)}
+                onClick={() => this.props.enable && this.props.onClick(this.props.position)}
             >{this.props.number}</div>
         );
     }
@@ -133,7 +127,6 @@ class RankItem extends React.Component {
     render() {
         return (
             <div 
-                // key={this.props.key} 
                 className="rankItem"
             >
                 <div>{this.props.rank}</div>
@@ -157,13 +150,6 @@ class PuzzleGame extends React.Component {
         }
     }
 
-    // componentDidMount(){
-    //     console.log(this.props.enable, this.props.puzzleList.toString());
-    //     if(this.props.enable && this.props.puzzleList.toString() == "1,2,3,4,5,6,7,8,0"){
-    //         this.props.endGame();
-    //     }
-    // }
-
     inputName(e){
         this.setState({name:e.target.value});
     }
@@ -177,14 +163,14 @@ class PuzzleGame extends React.Component {
             this.change(position,this.state.puzzleList.indexOf(0));
         }
     }
-
+    
     change(i,j){
+        // debugger
         let newList = this.state.puzzleList;
         let t = newList[i];
         newList[i] = newList[j];
         newList[j] = t;
         this.setState({puzzleList:newList,step:(this.state.step+1)});
-        // console.log(newList.toString());
         if(newList.toString() == "1,2,3,4,5,6,7,8,0"){
             this.endGame();
         }
@@ -195,7 +181,7 @@ class PuzzleGame extends React.Component {
         newRankList.push({name:this.state.name,step:this.state.step+1});
         window.localStorage.setItem("rankList",JSON.stringify(newRankList));
         this.setState({enable:false,rankList:newRankList});
-        alert("KO!!!");
+        console.log("KO!!!");
     }
 
     startGame(){
@@ -215,13 +201,11 @@ class PuzzleGame extends React.Component {
             }
         }
         this.setState({enable:true,step:0,puzzleList:startList});
-        // this.setState({enable:true,step:0,puzzleList:[1,2,3,4,5,6,7,0,8]});
     }
 
 
 
     render(){
-        // console.log(this.state.rankList);
         return(
             <section>
                 <Header />
@@ -255,7 +239,3 @@ class PuzzleGame extends React.Component {
 }
 
 export default PuzzleGame;
-
-// ReactDOM.render((
-//     <Stylish children={routes}  history={browserHistory}/>
-// ), document.getElementById("cont"));
