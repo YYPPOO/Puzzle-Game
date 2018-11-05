@@ -27,9 +27,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
     }
-    componentWillMount() {
 
-    }
     render() {
         let puzzleArray = this.props.puzzleList.map((item,index)=>(
             <PuzzleItem 
@@ -159,19 +157,22 @@ class PuzzleGame extends React.Component {
         }
     }
 
+    // componentDidMount(){
+    //     console.log(this.props.enable, this.props.puzzleList.toString());
+    //     if(this.props.enable && this.props.puzzleList.toString() == "1,2,3,4,5,6,7,8,0"){
+    //         this.props.endGame();
+    //     }
+    // }
+
     inputName(e){
-        // console.log(e.target.value);
         this.setState({name:e.target.value});
     }
 
     handleClick(position){
-        // console.log(position,number);
         let hx = (this.state.puzzleList.indexOf(0))%3;
         let hy = Math.floor(this.state.puzzleList.indexOf(0)/3);
         let x = position%3;
         let y = Math.floor(position/3);
-        // console.log(hx,hy);
-        // console.log(x,y);
         if(Math.abs(hx-x)+Math.abs(hy-y)==1){
             this.change(position,this.state.puzzleList.indexOf(0));
         }
@@ -190,31 +191,31 @@ class PuzzleGame extends React.Component {
     }
 
     endGame(){
-        console.log("KO");
         let newRankList = this.state.rankList;
         newRankList.push({name:this.state.name,step:this.state.step+1});
         window.localStorage.setItem("rankList",JSON.stringify(newRankList));
         this.setState({enable:false,rankList:newRankList});
+        alert("KO!!!");
     }
 
     startGame(){
-        // let startList = [1,2,3,4,5,6,7,8,0];
-        // for(let i=0;i<100;i++){
-        //     let randomP = Math.floor(Math.random()*9);
-        //     let hole = startList.indexOf(0);
-        //     let hx = (hole)%3;
-        //     let hy = Math.floor(hole/3);
-        //     let x = randomP%3;
-        //     let y = Math.floor(randomP/3);
+        let startList = [1,2,3,4,5,6,7,8,0];
+        for(let i=0;i<1000;i++){
+            let randomP = Math.floor(Math.random()*9);
+            let hole = startList.indexOf(0);
+            let hx = (hole)%3;
+            let hy = Math.floor(hole/3);
+            let x = randomP%3;
+            let y = Math.floor(randomP/3);
 
-        //     if(Math.abs(hx-x)+Math.abs(hy-y)==1){
-        //         let t = startList[hole];
-        //         startList[hole] = startList[randomP];
-        //         startList[randomP] = t;
-        //     }
-        // }
-        // this.setState({enable:true,step:0,puzzleList:startList});
-        this.setState({enable:true,step:0,puzzleList:[1,2,3,4,5,6,7,0,8]});
+            if(Math.abs(hx-x)+Math.abs(hy-y)==1){
+                let t = startList[hole];
+                startList[hole] = startList[randomP];
+                startList[randomP] = t;
+            }
+        }
+        this.setState({enable:true,step:0,puzzleList:startList});
+        // this.setState({enable:true,step:0,puzzleList:[1,2,3,4,5,6,7,0,8]});
     }
 
 
