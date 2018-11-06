@@ -9,7 +9,6 @@ module.exports = {
                 exclude: [/node_modules/,/dist/],
                 use:{
                     loader: "babel-loader",
-                    // preLoaders: "eslint-loader",
                     query: {
                         presets: ["es2015","react"]
                     }

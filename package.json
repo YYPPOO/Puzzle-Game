@@ -37,7 +37,7 @@
     "webpack-cli": "^3.1.0"
   },
   "eslintIgnore": [
-    "dist/*.js",
+    "public/*.js",
     "node_modules"
   ]
 }
